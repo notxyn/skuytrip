@@ -5,7 +5,7 @@
     <div class="flex justify-center pt-12 pb-6 bg-gradient-to-b from-orange-50 to-transparent">
         <form action="/destination" method="GET" class="w-full max-w-xl flex items-center bg-white rounded-full shadow-lg border border-orange-100 px-4 py-2 gap-2">
             <span class="text-orange-400 text-xl"><i class="fas fa-search"></i></span>
-            <input type="text" name="q" class="flex-1 px-3 py-2 text-lg bg-transparent outline-none border-none shadow-none focus:outline-none focus:ring-0" placeholder="Search attractions, tags, or locations..." value="{{ request('q') }}">
+            <input type="text" name="q" style="border: none !important; box-shadow: none !important;" class="flex-1 px-3 py-2 text-lg bg-transparent outline-none shadow-none focus:outline-none focus:border-none" placeholder="Search attractions, tags, or locations..." value="{{ request('q') }}">
             <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded-full font-semibold shadow hover:bg-orange-600 transition">Search</button>
         </form>
     </div>
@@ -18,7 +18,7 @@
                 <a href="/destination/{{ $attraction->slug }}" class="group bg-white rounded-3xl shadow-md border border-orange-100 flex flex-col gap-2 hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 no-underline overflow-hidden">
                     <div class="w-full h-44 bg-gray-100 flex items-center justify-center overflow-hidden">
                         @if($attraction->img)
-                            <img src="{{ $attraction->img }}" class="object-cover w-full h-full transition group-hover:scale-105 duration-200">
+                            <img src="{{ $attraction->img ? asset('storage/' . $attraction->img) : asset('images/placeholder.png') }}" alt="{{ $attraction->name }}" class="w-full h-40 object-cover rounded-t-xl" />
                         @else
                             <span class="text-gray-400 text-5xl"><i class="fas fa-image"></i></span>
                         @endif
@@ -30,8 +30,11 @@
                         <div class="text-gray-600 text-sm mb-3 flex-1">{{ Str::limit($attraction->desc, 80) }}</div>
                         <div class="font-bold text-lg text-orange-500 mb-2">{{ $attraction->price }} <span class="text-xs font-normal text-gray-500">Per person</span></div>
                         <div class="flex flex-wrap gap-2 mt-auto">
-                            @foreach ($attraction->tags as $tag)
-                                <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">{{ $tag }}</span>
+                            @php
+                                $tags = is_array($attraction->tags) ? $attraction->tags : explode(',', $attraction->tags);
+                            @endphp
+                            @foreach ($tags as $tag)
+                                <span class="bg-orange-100 px-3 py-1 rounded-full text-xs font-bold text-orange-700">{{ $tag }}</span>
                             @endforeach
                         </div>
                     </div>
@@ -50,7 +53,7 @@
                         <a href="/destination/{{ $attraction->slug }}" class="group bg-white rounded-3xl shadow-md border border-orange-100 flex flex-col gap-2 hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 no-underline overflow-hidden">
                             <div class="w-full h-44 bg-gray-100 flex items-center justify-center overflow-hidden">
                                 @if($attraction->img)
-                                    <img src="{{ $attraction->img }}" class="object-cover w-full h-full transition group-hover:scale-105 duration-200">
+                                    <img src="{{ $attraction->img ? asset('storage/' . $attraction->img) : asset('images/placeholder.png') }}" alt="{{ $attraction->name }}" class="w-full h-40 object-cover rounded-t-xl" />
                                 @else
                                     <span class="text-gray-400 text-5xl"><i class="fas fa-image"></i></span>
                                 @endif
@@ -62,8 +65,11 @@
                                 <div class="text-gray-600 text-sm mb-3 flex-1">{{ Str::limit($attraction->desc, 80) }}</div>
                                 <div class="font-bold text-lg text-orange-500 mb-2">{{ $attraction->price }} <span class="text-xs font-normal text-gray-500">Per person</span></div>
                                 <div class="flex flex-wrap gap-2 mt-auto">
-                                    @foreach ($attraction->tags as $tag)
-                                        <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">{{ $tag }}</span>
+                                    @php
+                                        $tags = is_array($attraction->tags) ? $attraction->tags : explode(',', $attraction->tags);
+                                    @endphp
+                                    @foreach ($tags as $tag)
+                                        <span class="bg-orange-100 px-3 py-1 rounded-full text-xs font-bold text-orange-700">{{ $tag }}</span>
                                     @endforeach
                                 </div>
                             </div>

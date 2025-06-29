@@ -20,7 +20,7 @@
             <!-- Search Box -->
             <form action="/destination" method="GET" class="bg-white/95 rounded-2xl shadow-2xl p-8 w-full max-w-sm mt-8 md:mt-0 flex flex-col gap-4">
                 <h2 class="text-xl font-bold mb-1 text-gray-800">Discover Place</h2>
-                <input type="text" name="q" placeholder="Place Name" class="w-full border border-gray-300 rounded-lg px-4 py-3 mb-2 focus:outline-none focus:ring-2 focus:ring-orange-400 transition">
+                <input type="text" name="q" placeholder="Place Name" class="w-full border border-gray-300 rounded-lg px-4 py-3 mb-2 outline-none focus:outline-none transition">
                 <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold shadow hover:bg-orange-600 transition">Search Place</button>
             </form>
         </div>

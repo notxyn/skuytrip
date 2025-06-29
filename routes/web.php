@@ -26,10 +26,11 @@ Route::get('/destination', function (Request $request) {
     $attractions = Attraction::query();
     $suggestions = collect();
     if ($query) {
-        // Try to find exact or partial matches first
+        // First, try to find matches by name or tags (case-insensitive)
         $attractions = $attractions->where(function($q2) use ($query) {
             $q2->where('name', 'like', "%$query%")
-                ->orWhereJsonContains('tags', $query);
+                ->orWhereJsonContains('tags', $query)
+                ->orWhereRaw('LOWER(tags) LIKE ?', ["%" . strtolower($query) . "%"]); // fallback for string tags
         });
         $results = $attractions->paginate(8)->withQueryString();
         if ($results->total() === 0) {
@@ -39,7 +40,8 @@ Route::get('/destination', function (Request $request) {
                 $max = 0;
                 similar_text(strtolower($item->name), strtolower($query), $p1);
                 $max = max($max, $p1);
-                foreach ($item->tags as $tag) {
+                $tags = is_array($item->tags) ? $item->tags : explode(',', $item->tags);
+                foreach ($tags as $tag) {
                     similar_text(strtolower($tag), strtolower($query), $p2);
                     $max = max($max, $p2);
                 }
@@ -129,6 +131,7 @@ Route::middleware('auth')->group(function () {
             'quantity' => $quantity,
             'total' => $total,
             'payment_method' => $request->input('payment', 'visa'),
+            'status' => 'pending',
         ]);
         // Redirect back to checkout with all booking data and success message
         return redirect()->route('checkout', [
@@ -150,8 +153,8 @@ Route::get('/export-attractions', function () {
 
 // Export bookings as JSON
 Route::get('/export-bookings', function () {
-    \File::put(base_path('bookings.json'), \App\Models\Booking::all()->toJson(JSON_PRETTY_PRINT));
-    return 'bookings.json exported!';
+    \File::put(base_path('bookings.json'), \App\Models\Booking::with(['user', 'attraction'])->get()->toJson(JSON_PRETTY_PRINT));
+    return 'bookings.json exported with status information!';
 });
 
 require __DIR__.'/auth.php';

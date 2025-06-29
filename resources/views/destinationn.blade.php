@@ -17,7 +17,10 @@
                     <h2 class="text-2xl font-bold mb-2 text-gray-900">Overview</h2>
                     <p class="mb-4 text-gray-700 leading-relaxed">{{ $attraction->desc }}</p>
                     <div class="flex gap-2 mb-6 flex-wrap">
-                        @foreach($attraction->tags as $tag)
+                        @php
+                            $tags = is_array($attraction->tags) ? $attraction->tags : explode(',', $attraction->tags);
+                        @endphp
+                        @foreach ($tags as $tag)
                             <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">{{ $tag }}</span>
                         @endforeach
                     </div>

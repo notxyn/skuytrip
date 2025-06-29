@@ -80,7 +80,8 @@
                         <div class="font-bold text-lg text-orange-600 mb-1">{{ $rec->name }}</div>
                         <div class="text-gray-500 text-sm mb-2">{{ $rec->loc }}</div>
                         <div class="flex flex-wrap gap-1 mb-2">
-                            @foreach($rec->tags as $tag)
+                            @php $tags = is_array($rec->tags) ? $rec->tags : explode(',', $rec->tags); @endphp
+                            @foreach($tags as $tag)
                                 <span class="bg-orange-100 text-orange-600 px-2 py-1 rounded text-xs">{{ $tag }}</span>
                             @endforeach
                         </div>

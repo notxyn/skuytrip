@@ -18,7 +18,7 @@ class ExportRecommendationData extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Export attractions and bookings data to JSON files for recommendation service';
 
     /**
      * Execute the console command.
@@ -26,8 +26,8 @@ class ExportRecommendationData extends Command
     public function handle()
     {
         \File::put(base_path('attractions.json'), \App\Models\Attraction::all()->toJson(JSON_PRETTY_PRINT));
-        \File::put(base_path('bookings.json'), \App\Models\Booking::all()->toJson(JSON_PRETTY_PRINT));
-        $this->info('Exported attractions.json and bookings.json');
+        \File::put(base_path('bookings.json'), \App\Models\Booking::with(['user', 'attraction'])->get()->toJson(JSON_PRETTY_PRINT));
+        $this->info('Exported attractions.json and bookings.json with status information');
         return 0;
     }
 }

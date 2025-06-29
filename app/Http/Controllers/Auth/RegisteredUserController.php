@@ -57,6 +57,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        $redirectTo = session('url.intended', route('landing'));
+        return redirect($redirectTo)->with('status', 'You\'re registered and logged in!');
     }
 }
