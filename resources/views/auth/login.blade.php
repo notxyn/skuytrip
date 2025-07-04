@@ -35,7 +35,7 @@
 <div class="min-h-screen flex flex-col justify-center items-center">
     <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-10 border border-orange-100" style="backdrop-filter: blur(2px);">
         <h2 class="text-3xl font-extrabold text-gray-800 mb-2 text-center">Login</h2>
-        <div class="text-gray-500 text-base font-light mb-8 text-center">Login to access your Skuy-Trips account</div>
+        <div class="text-gray-500 text-base font-light mb-8 text-center">Login to access your SkuyTrips account</div>
         
         <form method="POST" action="{{ route('login') }}" class="flex flex-col gap-6">
             @csrf

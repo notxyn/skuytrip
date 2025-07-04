@@ -20,7 +20,7 @@
                     @foreach($bookings as $booking)
                         <div class="bg-white border border-orange-100 rounded-xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow">
                             <div class="flex items-center gap-4">
-                                <img src="{{ $booking->attraction->img ?? 'https://via.placeholder.com/80x80?text=No+Image' }}" class="w-20 h-20 object-cover rounded-lg border">
+                                <img src="{{ $booking->attraction->img ? (Str::startsWith($booking->attraction->img, ['http://', 'https://']) ? $booking->attraction->img : asset('storage/' . $booking->attraction->img)) : 'https://via.placeholder.com/80x80?text=No+Image' }}" class="w-20 h-20 object-cover rounded-lg border">
                                 <div>
                                     <div class="font-bold text-lg text-orange-500">{{ $booking->attraction->name }}</div>
                                     <div class="text-gray-500 text-sm mb-1">{{ $booking->attraction->loc }}</div>

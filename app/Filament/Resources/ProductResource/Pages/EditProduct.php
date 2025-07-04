@@ -21,13 +21,15 @@ class EditProduct extends EditRecord
     // Tambahkan method ini:
     protected function afterSave(): void
     {
-        // Tampilkan notifikasi berhasil
         Notification::make()
             ->title('Produk berhasil diperbarui!')
             ->success()
             ->send();
 
-        // Redirect ke halaman list product dengan menutup modal
-        $this->redirect(ProductResource::getUrl(), navigate: true);
+        // Get the current page from the query string, default to 1
+        $page = request()->query('page', 1);
+
+        // Redirect back to the index with the same page number
+        $this->redirect(ProductResource::getUrl(['page' => $page]), navigate: true);
     }
 }

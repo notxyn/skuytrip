@@ -36,7 +36,9 @@ class ProductResource extends Resource
                 FileUpload::make('img')
                     ->label('Image')
                     ->disk('public')
-                    ->visibility('public'),
+                    ->visibility('public')
+                    ->deletable()
+                    ->preserveFilenames(false),
                 TextInput::make('loc')
                     ->label('Location')
                     ->required(),
@@ -48,7 +50,6 @@ class ProductResource extends Resource
                     ->numeric(),
                 TextInput::make('price')
                     ->label('Price')
-                    ->numeric()
                     ->required(),
                 TextInput::make('tags')
                     ->label('Tags (comma separated)')

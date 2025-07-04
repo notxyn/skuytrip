@@ -3,7 +3,7 @@
 <div class="min-h-screen bg-gray-50">
     <!-- Hero Section -->
     <div class="relative w-full h-80 mb-12">
-        <img src="{{ $attraction->img ?: 'https://via.placeholder.com/1200x320?text=No+Image' }}" class="w-full h-80 object-cover rounded-b-3xl">
+        <img src="{{ $attraction->img ? (Str::startsWith($attraction->img, ['http://', 'https://']) ? $attraction->img : asset('storage/' . $attraction->img)) : 'https://via.placeholder.com/1200x320?text=No+Image' }}" class="w-full h-80 object-cover rounded-b-3xl">
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent rounded-b-3xl"></div>
         <div class="absolute left-0 bottom-0 p-8">
             <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">{{ $attraction->name }}</h1>
@@ -111,7 +111,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($recommendedAttractions as $rec)
                     <div class="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-                        <img src="{{ $rec->img ?? 'https://via.placeholder.com/120x120?text=No+Image' }}" class="w-28 h-28 object-cover rounded-lg mb-3">
+                        <img src="{{ $rec->img ? (Str::startsWith($rec->img, ['http://', 'https://']) ? $rec->img : asset('storage/' . $rec->img)) : 'https://via.placeholder.com/120x120?text=No+Image' }}" class="w-28 h-28 object-cover rounded-lg mb-3">
                         <div class="font-bold text-lg text-orange-600 mb-1">{{ $rec->name }}</div>
                         <div class="text-gray-500 text-sm mb-2">{{ $rec->loc }}</div>
                         <div class="flex flex-wrap gap-1 mb-2">
@@ -130,7 +130,7 @@
         <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-10">
             @foreach($attraction['related'] as $rel)
             <div class="relative rounded-3xl overflow-hidden shadow-lg group">
-                <img src="{{ $rel['img'] }}" class="w-full h-72 object-cover group-hover:scale-105 transition">
+                <img src="{{ $rel['img'] ? (Str::startsWith($rel['img'], ['http://', 'https://']) ? $rel['img'] : asset('storage/' . $rel['img'])) : 'https://via.placeholder.com/400x200?text=No+Image' }}" class="w-full h-72 object-cover group-hover:scale-105 transition">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div class="absolute left-0 bottom-0 p-8 w-full">
                     <div class="flex gap-2 mb-2">

@@ -18,7 +18,7 @@
             <div class="w-full md:w-96 bg-white rounded-2xl shadow-xl p-8 flex flex-col">
                 <h2 class="text-xl font-bold mb-6">Order Summary</h2>
                 <div class="flex items-center gap-4 mb-4">
-                    <img src="{{ $order['img'] }}" class="w-16 h-16 rounded-lg object-cover">
+                    <img src="{{ $order['img'] ? (Str::startsWith($order['img'], ['http://', 'https://']) ? $order['img'] : asset('storage/' . $order['img'])) : 'https://via.placeholder.com/80x80?text=No+Image' }}" class="w-16 h-16 rounded-lg object-cover">
                     <div>
                         <div class="font-semibold">{{ $order['title'] }}</div>
                         <div class="text-gray-500 text-sm">{{ $order['location'] }}</div>
@@ -33,7 +33,7 @@
         <!-- Payment Method -->
         <div class="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 mb-10">
             <h2 class="text-xl font-bold mb-6">Payment Method</h2>
-            <form id="checkout-payment-form" action="/checkout/{{ $attraction->slug }}" method="POST">
+            <form id="checkout-payment-form" action="/checkout/{{ $attraction->slug }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="name" value="{{ $booking['name'] }}">
                 <input type="hidden" name="email" value="{{ $booking['email'] }}">
@@ -57,6 +57,13 @@
                         <span class="font-semibold">PayPal</span>
                     </label>
                 </div>
+                <div class="mb-6">
+                    <label for="payment_proof" class="block font-semibold mb-2">Upload Payment Proof <span class="text-red-500">*</span></label>
+                    <input type="file" name="payment_proof" id="payment_proof" accept="image/*,application/pdf" required class="block w-full border border-gray-300 rounded-lg p-2">
+                    @error('payment_proof')
+                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold text-lg shadow transition">Pay Now</button>
             </form>
         </div>
@@ -76,7 +83,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach(auth()->user()->recommendedAttractions() as $rec)
                     <div class="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-                        <img src="{{ $rec->img ?? 'https://via.placeholder.com/120x120?text=No+Image' }}" class="w-28 h-28 object-cover rounded-lg mb-3">
+                        <img src="{{ $rec->img ? (Str::startsWith($rec->img, ['http://', 'https://']) ? $rec->img : asset('storage/' . $rec->img)) : 'https://via.placeholder.com/120x120?text=No+Image' }}" class="w-28 h-28 object-cover rounded-lg mb-3">
                         <div class="font-bold text-lg text-orange-600 mb-1">{{ $rec->name }}</div>
                         <div class="text-gray-500 text-sm mb-2">{{ $rec->loc }}</div>
                         <div class="flex flex-wrap gap-1 mb-2">

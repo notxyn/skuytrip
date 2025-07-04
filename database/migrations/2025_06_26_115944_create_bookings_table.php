@@ -22,6 +22,9 @@ return new class extends Migration
             $table->integer('quantity');
             $table->integer('total');
             $table->string('payment_method');
+            $table->date('visit_date');
+            $table->integer('ticket_quantity');
+            $table->string('payment_proof')->nullable();
             $table->timestamps();
         });
     }

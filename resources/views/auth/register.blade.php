@@ -36,7 +36,7 @@
     <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
         <div class="mb-6 text-center">
             <h1 class="text-3xl font-extrabold text-orange-500 mb-2">Create Account</h1>
-            <p class="text-gray-500">Sign up for Skuy-Trips and start your journey!</p>
+            <p class="text-gray-500">Sign up for SkuyTrips and start your journey!</p>
         </div>
         
         <form method="POST" action="{{ route('register') }}" class="space-y-5">

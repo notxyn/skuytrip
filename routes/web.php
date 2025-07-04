@@ -121,6 +121,13 @@ Route::middleware('auth')->group(function () {
         $price = (int) preg_replace('/[^0-9]/', '', $attraction->price ?? '0');
         $quantity = (int) $request->input('quantity', 1);
         $total = $price * ($quantity > 0 ? $quantity : 1);
+        $validated = $request->validate([
+            'payment_proof' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
+        ]);
+        $paymentProofPath = null;
+        if ($request->hasFile('payment_proof')) {
+            $paymentProofPath = $request->file('payment_proof')->store('payments', 'public');
+        }
         $booking = \App\Models\Booking::create([
             'user_id' => auth()->id(),
             'attraction_id' => $attraction->id,
@@ -132,6 +139,7 @@ Route::middleware('auth')->group(function () {
             'total' => $total,
             'payment_method' => $request->input('payment', 'visa'),
             'status' => 'pending',
+            'payment_proof' => $paymentProofPath,
         ]);
         // Redirect back to checkout with all booking data and success message
         return redirect()->route('checkout', [

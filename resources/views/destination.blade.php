@@ -18,7 +18,7 @@
                 <a href="/destination/{{ $attraction->slug }}" class="group bg-white rounded-3xl shadow-md border border-orange-100 flex flex-col gap-2 hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 no-underline overflow-hidden">
                     <div class="w-full h-44 bg-gray-100 flex items-center justify-center overflow-hidden">
                         @if($attraction->img)
-                            <img src="{{ $attraction->img ? asset('storage/' . $attraction->img) : asset('images/placeholder.png') }}" alt="{{ $attraction->name }}" class="w-full h-40 object-cover rounded-t-xl" />
+                            <img src="{{ $attraction->img ? (Str::startsWith($attraction->img, ['http://', 'https://']) ? $attraction->img : asset('storage/' . $attraction->img)) : asset('images/placeholder.png') }}" alt="{{ $attraction->name }}" class="w-full h-40 object-cover rounded-t-xl" />
                         @else
                             <span class="text-gray-400 text-5xl"><i class="fas fa-image"></i></span>
                         @endif
@@ -53,7 +53,7 @@
                         <a href="/destination/{{ $attraction->slug }}" class="group bg-white rounded-3xl shadow-md border border-orange-100 flex flex-col gap-2 hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 no-underline overflow-hidden">
                             <div class="w-full h-44 bg-gray-100 flex items-center justify-center overflow-hidden">
                                 @if($attraction->img)
-                                    <img src="{{ $attraction->img ? asset('storage/' . $attraction->img) : asset('images/placeholder.png') }}" alt="{{ $attraction->name }}" class="w-full h-40 object-cover rounded-t-xl" />
+                                    <img src="{{ $attraction->img ? (Str::startsWith($attraction->img, ['http://', 'https://']) ? $attraction->img : asset('storage/' . $attraction->img)) : asset('images/placeholder.png') }}" alt="{{ $attraction->name }}" class="w-full h-40 object-cover rounded-t-xl" />
                                 @else
                                     <span class="text-gray-400 text-5xl"><i class="fas fa-image"></i></span>
                                 @endif

@@ -32,7 +32,7 @@
     <div class="flex flex-wrap gap-8 mb-12 justify-center">
         @foreach($attractions as $attraction)
             <a href="{{ route('destination.detail', ['slug' => $attraction->slug]) }}" class="w-48 h-32 bg-gray-200 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition block">
-                <img src="{{ $attraction->img ?: 'https://via.placeholder.com/400x200?text=No+Image' }}" alt="{{ $attraction->name }}" class="w-full h-full object-cover">
+                <img src="{{ $attraction->img ? (Str::startsWith($attraction->img, ['http://', 'https://']) ? $attraction->img : asset('storage/' . $attraction->img)) : 'https://via.placeholder.com/400x200?text=No+Image' }}" alt="{{ $attraction->name }}" class="w-full h-full object-cover">
                 <div class="text-center text-sm font-semibold text-gray-700 bg-white/80 py-1">{{ $attraction->name }}</div>
             </a>
         @endforeach
@@ -44,7 +44,7 @@
             <div class="flex flex-wrap gap-6 justify-center">
                 @foreach($recommendations as $rec)
                     <a href="{{ route('destination.detail', ['slug' => $rec->slug]) }}" class="w-44 h-28 bg-orange-100 rounded-xl overflow-hidden shadow hover:scale-105 transition block">
-                        <img src="{{ $rec->img ?: 'https://via.placeholder.com/400x200?text=No+Image' }}" alt="{{ $rec->name }}" class="w-full h-full object-cover">
+                        <img src="{{ $rec->img ? (Str::startsWith($rec->img, ['http://', 'https://']) ? $rec->img : asset('storage/' . $rec->img)) : 'https://via.placeholder.com/400x200?text=No+Image' }}" alt="{{ $rec->name }}" class="w-full h-full object-cover">
                         <div class="text-center text-xs font-bold text-orange-700 bg-white/80 py-1">{{ $rec->name }}</div>
                     </a>
                 @endforeach
@@ -68,7 +68,7 @@
         <div class="flex-1 grid grid-cols-2 gap-6">
             @foreach($attractions->take(4) as $attraction)
                 <a href="{{ route('destination.detail', ['slug' => $attraction->slug]) }}" class="bg-white rounded-xl overflow-hidden shadow-lg hover:scale-105 transition block">
-                    <img src="{{ $attraction->img ?: 'https://via.placeholder.com/400x200?text=No+Image' }}" alt="{{ $attraction->name }}" class="w-full h-32 object-cover">
+                    <img src="{{ $attraction->img ? (Str::startsWith($attraction->img, ['http://', 'https://']) ? $attraction->img : asset('storage/' . $attraction->img)) : 'https://via.placeholder.com/400x200?text=No+Image' }}" alt="{{ $attraction->name }}" class="w-full h-32 object-cover">
                     <div class="p-3 text-base font-semibold text-gray-700">{{ $attraction->name }}</div>
                 </a>
             @endforeach
@@ -82,7 +82,7 @@
         <div class="flex flex-col md:flex-row gap-10">
             @if($featured)
             <div class="flex-1 bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center hover:shadow-2xl transition">
-                <img src="{{ $featured->img ?: 'https://via.placeholder.com/400x400?text=No+Image' }}" class="w-44 h-44 object-cover rounded-xl mb-6 shadow" alt="{{ $featured->name }}">
+                <img src="{{ $featured->img ? (Str::startsWith($featured->img, ['http://', 'https://']) ? $featured->img : asset('storage/' . $featured->img)) : 'https://via.placeholder.com/400x400?text=No+Image' }}" class="w-44 h-44 object-cover rounded-xl mb-6 shadow" alt="{{ $featured->name }}">
                 <h3 class="text-2xl font-bold mb-2 text-gray-800">{{ $featured->name }}</h3>
                 <p class="text-gray-600 mb-6 text-center">{{ $featured->desc }}</p>
                 <a href="{{ route('destination.detail', ['slug' => $featured->slug]) }}" class="bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-orange-600 transition">Get Started</a>

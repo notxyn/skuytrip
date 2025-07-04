@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\ImageColumn;
 
 class BookingResource extends Resource
 {
@@ -92,6 +93,14 @@ class BookingResource extends Resource
                             ])
                             ->default('pending')
                             ->required(),
+                        FileUpload::make('payment_proof')
+                            ->label('Payment Proof')
+                            ->disk('public')
+                            ->directory('payments')
+                            ->imagePreviewHeight('100')
+                            ->downloadable()
+                            ->openable()
+                            ->visibleOn('view', 'edit', 'create'),
                     ])->columns(2),
             ]);
     }
@@ -152,6 +161,12 @@ class BookingResource extends Resource
                     ->label('Booked On')
                     ->dateTime()
                     ->sortable(),
+                ImageColumn::make('payment_proof')
+                    ->label('Payment Proof')
+                    ->disk('public')
+                    ->height(60)
+                    ->circular(false)
+                    ->defaultImageUrl(fn ($record) => $record->payment_proof ? null : 'https://via.placeholder.com/60x60?text=No+Proof'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
