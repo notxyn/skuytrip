@@ -55,9 +55,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Do NOT log the user in automatically
+        // Auth::login($user);
 
-        $redirectTo = session('url.intended', route('landing'));
-        return redirect($redirectTo)->with('status', 'You\'re registered and logged in!');
+        // Redirect to login page with a success message
+        // The intended URL is already set in the session by the create() method
+        return redirect()->route('login')->with('status', "Registration successful! Please log in to continue.");
     }
 }

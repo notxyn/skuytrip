@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('SkuyTrip') // Set the brand name only
             ->colors([
                 'primary' => Color::Amber,
             ])
